@@ -1,0 +1,151 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "WebApplication2",
+    "version": "1.0"
+  },
+  "paths": {
+    "/all": {
+      "get": {
+        "tags": [
+          "Person"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Person"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/person/{id}": {
+      "get": {
+        "tags": [
+          "Person"
+        ],
+        "operationId": "GetPersonById",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          },
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Person"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Wallet": {
+      "required": [
+        "cryptocurrency",
+        "walletAddress"
+      ],
+      "type": "object",
+      "properties": {
+        "walletAddress": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "cryptocurrency": {
+          "maxLength": 128,
+          "minLength": 0,
+          "type": "string"
+        },
+        "amount": {
+          "format": "int32",
+          "type": "integer"
+        }
+      }
+    },
+    "Person": {
+      "required": [
+        "binanceWalletAddress",
+        "bitcoinWalletAddress",
+        "cardanoWalletAddress",
+        "etheriumWalletAddress",
+        "litecoinWalletAddress",
+        "username"
+      ],
+      "type": "object",
+      "properties": {
+        "personId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "username": {
+          "maxLength": 128,
+          "minLength": 0,
+          "type": "string"
+        },
+        "bitcoinWalletAddress": {
+          "$ref": "#/definitions/Wallet"
+        },
+        "etheriumWalletAddress": {
+          "$ref": "#/definitions/Wallet"
+        },
+        "cardanoWalletAddress": {
+          "$ref": "#/definitions/Wallet"
+        },
+        "binanceWalletAddress": {
+          "$ref": "#/definitions/Wallet"
+        },
+        "litecoinWalletAddress": {
+          "$ref": "#/definitions/Wallet"
+        }
+      }
+    },
+    "ProblemDetails": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "instance": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": { }
+    }
+  }
+}
