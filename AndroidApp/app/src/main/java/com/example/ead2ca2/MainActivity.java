@@ -2,6 +2,8 @@ package com.example.ead2ca2;
 
 import android.os.Bundle;
 
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -23,9 +25,10 @@ import 	android.widget.AdapterView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
+import com.android.volley.*;
 
 import android.content.Context;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listview);
-        JSONArray jsonlist = new JSONArray();
         AndroidNetworking.initialize(getApplicationContext());
         AndroidNetworking.get("https://eadca2api.azure-api.net/v1/all")
                 .addHeaders("Host", "eadca2api.azure-api.net")
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 .getAsJSONArray(new JSONArrayRequestListener() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        jsonlist.put(response);
+                        myFunction(response);
                     }
                     @Override
                     public void onError(ANError error) {
@@ -56,36 +58,24 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    private void myFunction(@org.jetbrains.annotations.NotNull JSONArray jsonarr){
+
         final ListView listview = (ListView) findViewById(R.id.listview);
         String[] values = new String[] { };
-
         final ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
+        if(!jsonarr.isNull(0)) {
+            for (int i = 0; i < jsonarr.length(); i++) {
+                Log.d("catttt", jsonarr.opt(i).toString());
+                list.add(jsonarr.optJSONObject(i).opt("username").toString());
+            }
         }
         final StableArrayAdapter adapter = new StableArrayAdapter(this,
                 android.R.layout.simple_list_item_1, list);
         listview.setAdapter(adapter);
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
-                view.animate().setDuration(2000).alpha(0)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                list.remove(item);
-                                adapter.notifyDataSetChanged();
-                                view.setAlpha(1);
-                            }
-                        });
-            }
-
-        });
     }
+
 
     private class StableArrayAdapter extends ArrayAdapter<String> {
 
