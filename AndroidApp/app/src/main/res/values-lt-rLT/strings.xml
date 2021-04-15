@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">" Kriptovaliutos API kliento programa"</string>
+    <string name="action_settings">Nustatymai</string>
+    <string name="address">Adresas</string>
+    <string name="amount">Suma</string>
+    <string name="searchhint">Vartotojo vardas / ID</string>
+    <string name="searchbutton">Ieškoti</string>
+</resources>

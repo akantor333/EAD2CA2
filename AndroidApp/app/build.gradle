@@ -3,6 +3,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('C:\\EAD2CA2\\APK\\Keystore\\keystore.jks')
+            storePassword 'EADCA2??'
+            keyAlias 'key0'
+            keyPassword 'EADCA2'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
